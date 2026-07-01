@@ -62,16 +62,14 @@ float readSensorData() {
   return distance;
 }
 
-// FIXED: Added an instant friction-breaking shock pulse before setting target speed
 void moveForward(int speed) {
-  // 1. Send a brief, full-power shock to break static friction instantly
+
   analogWrite(A_1B, 0);
   analogWrite(A_1A, 255);
   analogWrite(B_1B, 255*mult);
   analogWrite(B_1A, 0);
-  delay(15); // 15ms is long enough to kick the gears, but too short to cause a jump
+  delay(15);
 
-  // 2. Drop down to the requested cruise speed
   int adjustedRightSpeed = speed; 
 
   analogWrite(A_1B, 0);
@@ -198,7 +196,7 @@ void loop() {
   int speed = 150;
 
   int lineColor = digitalRead(lineTrack); // 0:white  1:black
-  Serial.println(lineColor); //print on the serial monitor
+  Serial.println(lineColor);
   if (lineColor) {
     moveLeft(speed);
   } else {
