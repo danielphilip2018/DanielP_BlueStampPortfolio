@@ -32,8 +32,8 @@ For your second milestone, explain what you've worked on since your previous mil
 - What needs to be completed before your final milestone
 
 # *Schematics*
-<img width="4000" height="2100" alt="20260701_090928" src="https://github.com/user-attachments/assets/5d3fddb8-d7c2-4b8d-ace4-14d7b491ee9c" />
-<img width="4000" height="2100" alt="20260701_090934" src="https://github.com/user-attachments/assets/a4f1e230-1dc2-44db-afb9-8e8ed15b90c7" />
+<img width="2000" height="auto" alt="20260701_090928" src="https://github.com/user-attachments/assets/5d3fddb8-d7c2-4b8d-ace4-14d7b491ee9c" />
+<img width="2000" height="auto" alt="20260701_090934" src="https://github.com/user-attachments/assets/a4f1e230-1dc2-44db-afb9-8e8ed15b90c7" />
 
 # *Code*
 <!--**Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs.**-->
