@@ -11,7 +11,7 @@ The Floor Cleaning Robot is a automated robot that cleans various areas without 
    
 # Final Milestone
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 For your final milestone, explain the outcome of your project. Key details to include are:
 - What you've accomplished since your previous milestone
@@ -23,7 +23,7 @@ For your final milestone, explain the outcome of your project. Key details to in
 
 # Second Milestone
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/y3VAmNlER5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/y3VAmNlER5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 For my second milestone, I essentially finished the base project. I used an ultrasonic sensor for obstacle avoidance, as well as two close range IR sensors in the robot's blindspot to prevent it getting stuck. I also used Onshape to create a clean cover for the robot that hides the wires. The wiring was suprisingly simper than I expected it to be, as moving stuff around the breadboard made it quite easy to connect all the modules. The main challenge of this module was learning how to use CAD software, which I had never touched before. I found it incredibly confusing at the beginning, but I pretty quickly learnt how to make more complicated shapes and things, like I did for my cover. My final milestone is my most ambitious milestone, as it requires good knowledge of compiling and making the robot act on very large data sets. It will most likely require an extra Raspberry Pi. 
 
@@ -157,7 +157,7 @@ void loop() {
 
 # First Milestone
 
-<iframe width="576" height="486" src="https://www.youtube.com/embed/t34ZnVvarjQ" title="Daniel P. Milestone 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/t34ZnVvarjQ" title="Daniel P. Milestone 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 My main project for these 6 weeks is a Floor Cleaning Robot. The idea is that the robot can clean a room by towing a vacuum while avoiding obstacles, ultimately cleaning the dust near corners and around the room while not moving or getting stuck with big objects. I also plan to make an extension of this, using data multiple ultrasonic sensors to create a map of the room which the robot can then intelligently clean. For my first milstone, I've created the physical robot itself and wired the numerous modules. For my first movements of the robot, I connected a Line Tracking Sensor that uses infrared and photoresistive sensors to keep the robot following a black line, which it does perfectly, except for a few scenarios. One of the main problems I faced was the wiring, as there are numerous modules and wires that must be connected on a small breadboard. I expect it to be even more complex as I connect more modules, so I will have the rewire many parts to make it more efficient. I plan to finish the base project itself (line-tracking with obstacle avoidance) in the next 2-3 weeks, and then spend the rest of my time working on mapping out areas intelligently.
 
