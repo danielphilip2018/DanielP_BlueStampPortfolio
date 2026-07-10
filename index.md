@@ -25,11 +25,7 @@ For your final milestone, explain the outcome of your project. Key details to in
 
 <iframe width="576" height="486" src="https://www.youtube.com/embed/y3VAmNlER5Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-For your second milestone, explain what you've worked on since your previous milestone. You can highlight:
-- Technical details of what you've accomplished and how they contribute to the final goal
-- What has been surprising about the project so far
-- Previous challenges you faced that you overcame
-- What needs to be completed before your final milestone
+For my second milestone, I essentially finished the base project. I used an ultrasonic sensor for obstacle avoidance, as well as two close range IR sensors in the robot's blindspot to prevent it getting stuck. I also used Onshape to create a clean cover for the robot that hides the wires. The wiring was suprisingly simper than I expected it to be, as moving stuff around the breadboard made it quite easy to connect all the modules. The main challenge of this module was learning how to use CAD software, which I had never touched before. I found it incredibly confusing at the beginning, but I pretty quickly learnt how to make more complicated shapes and things, like I did for my cover. My final milestone is my most ambitious milestone, as it requires good knowledge of compiling and making the robot act on very large data sets. It will most likely require an extra Raspberry Pi. 
 
 # *Schematics*
 <img width="2000" height="auto" alt="20260701_090928" src="https://github.com/user-attachments/assets/5d3fddb8-d7c2-4b8d-ace4-14d7b491ee9c" />
