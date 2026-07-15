@@ -1,4 +1,3 @@
-<img width="634" height="491" alt="Screenshot 2026-07-13 at 08 44 09" src="https://github.com/user-attachments/assets/32b399c3-c1e9-4720-bc7a-c63bc3d402b5" />
 # Floor Cleaning Robot
 The Floor Cleaning Robot is a automated robot that cleans various areas without the need of supervision. Instead of setting aside time to cleaning your home, you can let the robot clean it while spending the free time on more important things. While it won't do a deep clean, it will do more than enough to maintain a clean home with virtually no time or physical commitment.
 
