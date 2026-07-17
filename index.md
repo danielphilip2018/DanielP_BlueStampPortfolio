@@ -13,6 +13,7 @@ The Floor Cleaning Robot is a automated robot that cleans various areas without 
 
 <iframe width="800" height="450" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+For my final milestone, I made the robot intelligently turn towards areas that had more space. TO do this, I added 4 ultrasonic sensors, placed strategically on top to get distance readings of all directions. I then coded in a script that would make the robot used the 4 sensors to find the place with the place with the most space and go there. I expected the code to be the hardest part of this, but it actually turned out to be creating the sensor array. That being said, the sensor array has helped expand the scope of this project, as it opens the doors to lots of much more complex scripts and ideas. My biggest challenges at BSE were learning to CAD and a bit of coding. CAD was something I'd tried before this course with barely any success, but this course helped me leran the basics and start creating useful and well-scaled shapes and structures. My biggest triumphs were the building of the robot frame and the wiring...
 For your final milestone, explain the outcome of your project. Key details to include are:
 - What you've accomplished since your previous milestone
 - What your biggest challenges and triumphs were at BSE
