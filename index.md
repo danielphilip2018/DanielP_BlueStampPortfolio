@@ -13,12 +13,245 @@ The Floor Cleaning Robot is a automated robot that cleans various areas without 
 
 <iframe width="800" height="450" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-For my final milestone, I made the robot intelligently turn towards areas that had more space. TO do this, I added 4 ultrasonic sensors, placed strategically on top to get distance readings of all directions. I then coded in a script that would make the robot used the 4 sensors to find the place with the place with the most space and go there. I expected the code to be the hardest part of this, but it actually turned out to be creating the sensor array. That being said, the sensor array has helped expand the scope of this project, as it opens the doors to lots of much more complex scripts and ideas. My biggest challenges at BSE were learning to CAD and a bit of coding. CAD was something I'd tried before this course with barely any success, but this course helped me learn the basics and start creating useful and well-scaled shapes and structures. My biggest triumphs were the building of the robot frame and the wiring, as I've enjoyed doing that and the wiring felt more like a puzzle than a chore. Seeing all the complex wiring but knowing what each individual one does felt really satisfying to me. During my time in BSE, I learned how to solder, how to CAD and 3D print things to specifications, how to improvise using the tools around us, and how code directly translates into the physical machine using microcontrollers. I also learned how to breadboard and move power around the robotsafely and efficiently. I feel like the big achievement of my time in BSE was not the project itself, but the things I learnt as part of making it. It made my 6 weeks here feel worthwhile beyond a single robot. In the future, I want to learn about different types of modules and how they ould be applied into my robot, and also what the limits of my ultrasonic array are.
-For your final milestone, explain the outcome of your project. Key details to include are:
-- What you've accomplished since your previous milestone
-- What your biggest challenges and triumphs were at BSE
-- A summary of key topics you learned about
-- What you hope to learn in the future after everything you've learned at BSE
+For my final milestone, I made the robot intelligently turn towards areas that had more space. To do this, I added 4 ultrasonic sensors, placed strategically on top to get distance readings of all directions. I then coded in a script that would make the robot used the 4 sensors to find the place with the place with the most space and go there. I expected the code to be the hardest part of this, but it actually turned out to be creating the sensor array. That being said, the sensor array has helped expand the scope of this project, as it opens the door to lots of much more complex ideas. 
+
+My biggest challenges at BSE were learning to CAD and a bit of coding. CAD was something I'd tried before this course with barely any success, but this course helped me learn the basics and start creating useful and properly-scaled shapes and structures. My biggest triumphs were the building of the robot frame and the wiring, as I've enjoyed doing that and the wiring felt more like a puzzle than a chore. Seeing all the complex wiring but knowing what each individual one does felt really satisfying to me. 
+
+During my time in BSE, I learned how to solder, how to CAD and 3D print things to precise specifications, and how code directly translates into the physical machine using microcontrollers, just to name a few. I also learned how to breadboard and transfer power around the robot safely and efficiently. I feel like the big achievement of my time in BSE was not the project itself, but the numerous small things I learnt as part of making it. The learning during these 6 weeks was much more impactful for the rest of my life than the robot I created. In the future, I want to learn about different types of modules and how they could be applied into my robot, and also what my ultrasonic array is capable of.
+
+# *Schematics*
+
+# *Code*
+<!--**Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs.**-->
+
+```c++
+// Throttle Control
+const int A_1B = 5;
+const int A_1A = 6;
+const int B_1B = 9;
+const int B_1A = 10;
+
+// Red Gold FRONT
+const int echoPinFront = 4;
+const int trigPinFront = 3;
+
+// Purple White BACK
+const int echoPinBack = A5;
+const int trigPinBack = A4;
+
+// Black White RIGHT
+const int trigPinRight = A3;
+const int echoPinRight = A2;
+
+// Orange Yellow LEFT
+const int echoPinLeft = A0;
+const int trigPinLeft = A1;
+
+// IR Sensors
+const int rightIR = 7;
+const int leftIR = 8;
+
+const float mult = 1;
+
+// Navigation Thresholds
+const float WALL_THRESHOLD = 15.0;
+const float MAX_HUG_DISTANCE = 25.0;
+const float MIN_BRACKET = 8.0;   
+const float MAX_BRACKET = 13.0;    
+
+
+float readSensorDataFront() {
+  digitalWrite(trigPinFront, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPinFront, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPinFront, LOW);
+  float distanceFront = pulseIn(echoPinFront, HIGH, 5800) / 58.00; 
+  return (distanceFront == 0) ? 999.0 : distanceFront; 
+}
+
+float readSensorDataBack() {
+  digitalWrite(trigPinBack, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPinBack, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPinBack, LOW);
+  float distanceBack = pulseIn(echoPinBack, HIGH, 5800) / 58.00; 
+  return (distanceBack == 0) ? 999.0 : distanceBack;
+}
+
+float readSensorDataRight() {
+  digitalWrite(trigPinRight, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPinRight, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPinRight, LOW);
+  float distanceRight = pulseIn(echoPinRight, HIGH, 5800) / 58.00; 
+  return (distanceRight == 0) ? 999.0 : distanceRight;
+}
+
+float readSensorDataLeft() {
+  digitalWrite(trigPinLeft, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPinLeft, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPinLeft, LOW);
+  float distanceLeft = pulseIn(echoPinLeft, HIGH, 5800) / 58.00; 
+  return (distanceLeft == 0) ? 999.0 : distanceLeft;
+}
+
+void moveForward(int speed) {
+  analogWrite(A_1B, 0);
+  analogWrite(A_1A, speed);
+  analogWrite(B_1B, speed * mult);
+  analogWrite(B_1A, 0);
+}
+
+
+void adjustRight(int speed) {
+  analogWrite(A_1B, 0);
+  analogWrite(A_1A, speed); 
+  analogWrite(B_1B, 0);      
+  analogWrite(B_1A, 0);
+}
+
+
+void adjustLeft(int speed) {
+  analogWrite(A_1B, 0);
+  analogWrite(A_1A, 0);      
+  analogWrite(B_1B, speed * mult); 
+  analogWrite(B_1A, 0);
+}
+
+void moveBackward(int speed) {
+  analogWrite(A_1B, speed);
+  analogWrite(A_1A, 0);
+  analogWrite(B_1B, 0);
+  analogWrite(B_1A, speed);
+}
+
+void pivotLeft(int speed) {
+  analogWrite(A_1B, speed);
+  analogWrite(A_1A, 0);
+  analogWrite(B_1B, speed * mult);
+  analogWrite(B_1A, 0);
+}
+
+void pivotRight(int speed) {
+  analogWrite(A_1B, 0);
+  analogWrite(A_1A, speed);
+  analogWrite(B_1B, 0);
+  analogWrite(B_1A, speed);
+}
+
+void stopMove() {
+  analogWrite(A_1B, 0);
+  analogWrite(A_1A, 0);
+  analogWrite(B_1B, 0);
+  analogWrite(B_1A, 0);
+}
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(A_1B, OUTPUT);
+  pinMode(A_1A, OUTPUT);
+  pinMode(B_1B, OUTPUT);
+  pinMode(B_1A, OUTPUT);
+
+  pinMode(echoPinFront, INPUT);
+  pinMode(trigPinFront, OUTPUT);
+  pinMode(echoPinBack, INPUT);
+  pinMode(trigPinBack, OUTPUT);
+  pinMode(echoPinRight, INPUT);
+  pinMode(trigPinRight, OUTPUT);
+  pinMode(echoPinLeft, INPUT);
+  pinMode(trigPinLeft, OUTPUT);
+
+  pinMode(leftIR, INPUT);
+  pinMode(rightIR, INPUT);
+}
+
+void loop() {
+  
+  int leftIR_val = digitalRead(leftIR);
+  int rightIR_val = digitalRead(rightIR);
+
+  
+  if (leftIR_val == LOW && rightIR_val == HIGH) {
+    Serial.println("IR adjusting Right");
+    adjustRight(180);
+  } 
+  else if (leftIR_val == HIGH && rightIR_val == LOW) {
+    Serial.println("IR adjusting Left");
+    adjustLeft(180);
+  } 
+  else if (leftIR_val == LOW && rightIR_val == LOW) {
+    Serial.println("Backing up");
+    moveBackward(150);
+    delay(200);
+  } 
+  else {
+    
+    float distanceFront = readSensorDataFront();
+    Serial.print("Front Distance: ");
+    Serial.println(distanceFront);
+
+    
+    if (distanceFront <= WALL_THRESHOLD) {
+      Serial.println("Finding longest path...");
+      stopMove();
+      delay(200);
+
+      
+      float distanceLeft = readSensorDataLeft();
+      float distanceRight = readSensorDataRight();
+
+      Serial.print("Left path: "); Serial.println(distanceLeft);
+      Serial.print("Right path: "); Serial.println(distanceRight);
+
+      
+      if (distanceLeft > distanceRight) {
+        Serial.println("Go Left");
+        pivotLeft(180);
+        delay(400);
+      } else {
+        Serial.println("Go Right");
+        pivotRight(180);
+        delay(400);
+      }
+      
+      stopMove();
+      delay(200); 
+    } 
+    else {
+      float distanceLeft = readSensorDataLeft();
+
+      if (distanceLeft < MAX_HUG_DISTANCE) {
+        
+        if (distanceLeft < MIN_BRACKET) {
+          
+          Serial.println("Adjusting Right");
+          adjustRight(150);
+        } 
+        else if (distanceLeft > MAX_BRACKET) {
+          
+          Serial.println("Adjusting Left");
+          adjustLeft(150);
+        } 
+        else {
+          if (distanceFront <= (WALL_THRESHOLD + 10.0)) {
+            moveForward(120);
+          } else {
+            moveForward(200);
+          }
+        }
+      } 
+    }  
+  }
+}
+```
+
 
 # Second Milestone
 
