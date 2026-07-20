@@ -199,7 +199,7 @@ void loop() {
 
     
     if (distanceFront <= WALL_THRESHOLD) {
-      Serial.println("Finding longest path...");
+      Serial.println("Longest path...");
       stopMove();
       delay(200);
 
@@ -207,8 +207,8 @@ void loop() {
       float distanceLeft = readSensorDataLeft();
       float distanceRight = readSensorDataRight();
 
-      Serial.print("Left path: "); Serial.println(distanceLeft);
-      Serial.print("Right path: "); Serial.println(distanceRight);
+      Serial.print("Left: "); Serial.println(distanceLeft);
+      Serial.print("Right: "); Serial.println(distanceRight);
 
       
       if (distanceLeft > distanceRight) {
