@@ -20,8 +20,9 @@ My biggest challenges at BSE were learning to CAD and a bit of coding. CAD was s
 During my time in BSE, I learned how to solder, how to CAD and 3D print things to precise specifications, and how code directly translates into the physical machine using microcontrollers, just to name a few. I also learned how to breadboard and transfer power around the robot safely and efficiently. I feel like the big achievement of my time in BSE was not the project itself, but the numerous small things I learnt as part of making it. The learning during these 6 weeks was much more impactful for the rest of my life than the robot I created. In the future, I want to learn about different types of modules and how they could be applied into my robot, and also what my ultrasonic array is capable of.
 
 # *Schematics*
-d
-d
+<img width="2000" height="auto" alt="FCRSideView" src="https://github.com/user-attachments/assets/a6ce5e29-b54d-4ff4-83de-74a2005e7450" />
+<img width="2000" height="auto" alt="FCR3DView" src="https://github.com/user-attachments/assets/1c799f16-8252-4a95-a600-c57397a6cd69" />
+
 
 # *Code*
 <!--**Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs.**-->
