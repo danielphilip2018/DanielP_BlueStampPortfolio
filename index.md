@@ -28,7 +28,7 @@ During my time in BSE, I learned how to solder, how to CAD and 3D print things t
 <!--**Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs.**-->
 
 ```c++
-// Throttle Control
+// Throttle Control (A = RIGHT MOTOR, B = LEFT MOTOR)
 const int A_1B = 5;
 const int A_1A = 6;
 const int B_1B = 9;
@@ -54,14 +54,13 @@ const int trigPinLeft = A1;
 const int rightIR = 7;
 const int leftIR = 8;
 
-const float mult = 1;
+const float mult = 1.0;
 
 // Navigation Thresholds
 const float WALL_THRESHOLD = 15.0;
 const float MAX_HUG_DISTANCE = 25.0;
-const float MIN_BRACKET = 8.0;   
-const float MAX_BRACKET = 13.0;    
-
+const float MIN_BRACKET = 13.0;   
+const float MAX_BRACKET = 18.0;    
 
 float readSensorDataFront() {
   digitalWrite(trigPinFront, LOW);
@@ -110,16 +109,16 @@ void moveForward(int speed) {
   analogWrite(B_1A, 0);
 }
 
-
-void adjustRight(int speed) {
+void adjustLeft(int speed) {
+  
   analogWrite(A_1B, 0);
   analogWrite(A_1A, speed); 
   analogWrite(B_1B, 0);      
   analogWrite(B_1A, 0);
 }
 
-
-void adjustLeft(int speed) {
+void adjustRight(int speed) {
+  
   analogWrite(A_1B, 0);
   analogWrite(A_1A, 0);      
   analogWrite(B_1B, speed * mult); 
@@ -130,21 +129,23 @@ void moveBackward(int speed) {
   analogWrite(A_1B, speed);
   analogWrite(A_1A, 0);
   analogWrite(B_1B, 0);
-  analogWrite(B_1A, speed);
+  analogWrite(B_1A, speed * mult);
 }
 
-void pivotLeft(int speed) {
+void pivotRight(int speed) {
+  
   analogWrite(A_1B, speed);
   analogWrite(A_1A, 0);
   analogWrite(B_1B, speed * mult);
   analogWrite(B_1A, 0);
 }
 
-void pivotRight(int speed) {
+void pivotLeft(int speed) {
+  
   analogWrite(A_1B, 0);
   analogWrite(A_1A, speed);
   analogWrite(B_1B, 0);
-  analogWrite(B_1A, speed);
+  analogWrite(B_1A, speed * mult);
 }
 
 void stopMove() {
@@ -176,7 +177,6 @@ void setup() {
 }
 
 void loop() {
-  
   int leftIR_val = digitalRead(leftIR);
   int rightIR_val = digitalRead(rightIR);
 
@@ -184,10 +184,12 @@ void loop() {
   if (leftIR_val == LOW && rightIR_val == HIGH) {
     Serial.println("IR adjusting Right");
     adjustRight(180);
+    delay(50);
   } 
   else if (leftIR_val == HIGH && rightIR_val == LOW) {
     Serial.println("IR adjusting Left");
     adjustLeft(180);
+    delay(50);
   } 
   else if (leftIR_val == LOW && rightIR_val == LOW) {
     Serial.println("Backing up");
@@ -195,51 +197,48 @@ void loop() {
     delay(200);
   } 
   else {
-    
     float distanceFront = readSensorDataFront();
     Serial.print("Front Distance: ");
     Serial.println(distanceFront);
 
     
     if (distanceFront <= WALL_THRESHOLD) {
-      Serial.println("Longest path...");
+      Serial.println("Front wall hit! Calculating longest path...");
       stopMove();
-      delay(200);
+      delay(800);
 
-      
+      delay(10); 
       float distanceLeft = readSensorDataLeft();
+      delay(10);
       float distanceRight = readSensorDataRight();
 
       Serial.print("Left: "); Serial.println(distanceLeft);
       Serial.print("Right: "); Serial.println(distanceRight);
 
-      
       if (distanceLeft > distanceRight) {
         Serial.println("Go Left");
         pivotLeft(180);
-        delay(400);
+        delay(700);
       } else {
         Serial.println("Go Right");
         pivotRight(180);
-        delay(400);
-      }
-      
+        delay(700);
+      } 
       stopMove();
-      delay(200); 
+      delay(100);
     } 
+    
     else {
+      delay(10);
       float distanceLeft = readSensorDataLeft();
 
       if (distanceLeft < MAX_HUG_DISTANCE) {
-        
         if (distanceLeft < MIN_BRACKET) {
-          
-          Serial.println("Adjusting Right");
+          Serial.println("Too close to left wall -> Adjusting Right");
           adjustRight(150);
         } 
         else if (distanceLeft > MAX_BRACKET) {
-          
-          Serial.println("Adjusting Left");
+          Serial.println("Too far from left wall -> Adjusting Left");
           adjustLeft(150);
         } 
         else {
@@ -250,6 +249,13 @@ void loop() {
           }
         }
       } 
+      else {
+        if (distanceFront <= (WALL_THRESHOLD + 10.0)) {
+          moveForward(120);
+        } else {
+          moveForward(200);
+        }
+      }
     }  
   }
 }
