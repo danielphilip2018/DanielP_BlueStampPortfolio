@@ -11,7 +11,7 @@ The Floor Cleaning Robot is a automated robot that cleans various areas without 
    
 # Final Milestone
 
-<iframe width="960" height="540" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="820" height="462" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 For my final milestone, I made the robot intelligently turn towards areas that had more space. To do this, I added 4 ultrasonic sensors in an array, placed on top to get distance readings of all 4 directions. I then coded in a script that would make the robot used these 4 sensors to find the place with the place with the most space and go there. I expected the code to be the hardest part of this, but the challenge was actually the sensor array. The mounting was through cardboard that liked to push sensor pins and the wires away from each other. The sensors tended to give weird readings, and I had to go to the individual wires to find the issues with the code or wiring. That being said, the sensor array has helped expand the scope of this project, as even though my time is done in BSE, it opens the door to lots of much more complex ideas to be implemented. 
 
@@ -257,7 +257,7 @@ void loop() {
 
 # Second Milestone
 
-<iframe width="960" height="540" src="https://www.youtube.com/embed/f4Klb_VM6o0?si=FL4mymssh1P_Weu8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="820" height="462" src="https://www.youtube.com/embed/f4Klb_VM6o0?si=FL4mymssh1P_Weu8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 For my second milestone, I essentially finished the base floor cleaning robot project. I used an ultrasonic sensor for obstacle avoidance, as well as two close range IR sensors in the robot's blindspot to prevent it from getting stuck. I also used Onshape, a browser-based CAD software, to create a clean cover that hides the robot's wiring. The wiring was simpler than I expected it to be, as moving stuff around the breadboard made it quite easy to connect all the newmodules. The main challenge of this module was learning how to use CAD software, which I had never touched before. I found it incredibly confusing at the beginning, but I pretty quickly learnt how to make more complicated shapes and things, like I did for the cover. My final milestone is my most ambitious milestone, as it requires good knowledge of compiling and making the robot act on very large data sets. It will most likely require an extra Raspberry Pi. 
 
@@ -391,7 +391,7 @@ void loop() {
 
 # First Milestone
 
-<iframe width="960" height="540" src="https://www.youtube.com/embed/t34ZnVvarjQ" title="Daniel P. Milestone 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="820" height="462" src="https://www.youtube.com/embed/t34ZnVvarjQ" title="Daniel P. Milestone 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 My main project for these 6 weeks is a Floor Cleaning Robot. The idea is that the robot can clean a room by towing a vacuum while avoiding obstacles, ultimately cleaning the dust near corners and around the room while not moving or getting stuck with big objects. I also plan to make an extension of this, using data multiple ultrasonic sensors to create a map of the room which the robot can then intelligently clean. For my first milstone, I've created the physical robot itself and wired the numerous modules. For my first movements of the robot, I connected a Line Tracking Sensor that uses infrared and photoresistive sensors to keep the robot following a black line, which it does perfectly, except for a few scenarios. One of the main problems I faced was the wiring, as there are numerous modules and wires that must be connected on a small breadboard. I also found the logic of how it would know which way to turn a bit confusing at first. I expect it to be even more complex as I connect more modules, so I will have the rewire many parts to make it more efficient. I plan to finish the base project itself (line-tracking with obstacle avoidance) in the next 2-3 weeks, and then spend the rest of my time working on mapping out areas intelligently.
 
