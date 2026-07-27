@@ -201,7 +201,7 @@ void loop() {
 
     
     if (distanceFront <= WALL_THRESHOLD) {
-      Serial.println("Front wall hit! Calculating longest path...");
+      Serial.println("Calculating longest path...");
       stopMove();
       delay(800);
 
@@ -232,11 +232,11 @@ void loop() {
 
       if (distanceLeft < MAX_HUG_DISTANCE) {
         if (distanceLeft < MIN_BRACKET) {
-          Serial.println("Too close to left wall -> Adjusting Right");
+          Serial.println("Adjusting Right");
           adjustRight(150);
         } 
         else if (distanceLeft > MAX_BRACKET) {
-          Serial.println("Too far from left wall -> Adjusting Left");
+          Serial.println("Adjusting Left");
           adjustLeft(150);
         } 
         else {
