@@ -13,9 +13,9 @@ The Floor Cleaning Robot is a automated robot that cleans various areas without 
 
 <iframe width="820" height="462" src="https://www.youtube.com/embed/F7M7imOVGug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-For my final milestone, I made the robot intelligently turn towards areas that had more space. To do this, I added 4 ultrasonic sensors in an array, placed on top to get distance readings of all 4 directions. I then coded in a script that would make the robot used these 4 sensors to find the place with the place with the most space and go there. The robot also follows walls on its left side and can switch beween just searching for longest distance and following the wall. I also made the robot have basic mapping capabilities, using a Python script to link the computer Terminal and the Arduino code and make a live radar/map of its surroundings. I expected this milestone to be really hard and it was. The code was by far the hardest part of this milestone, but the challenge was also in the sensor array. The mounting was through cardboard that liked to push the sensor pins and the wires away from each other. The sensors tended to give weird readings, and I had to go to the individual wires to find the issues with the code or wiring. That being said, the sensor array has helped expand the scope of this project, as even though my time is done in BSE, it opens the door to lots of much more complex ideas to be implemented. 
+For my final milestone, I made the robot intelligently turn towards areas that had more space. To do this, I added 3 ultrasonic sensors in an array, placed on top to get distance readings of the front, left and right. I then coded in a script that would make the robot used these 4 sensors to find the place with the place with the most space and go there. The robot also follows walls on its left side and switches between just searching for longest distance and following the wall by itself. I also made the robot have basic mapping capabilities, using a Python script to link the computer Terminal and the Arduino code and make a live radar/map of its surroundings. I expected this milestone to be really hard and it was. The code was by far the hardest part of this milestone, but the sensor array was also challenging. The mounting was through cardboard that liked to push the sensor pins and the wires away from each other. The sensors tended to give weird readings, and I had to look at each individual to find the issues with the code or wiring. That being said, the sensor array has helped expand the scope of this project, as even though my time is done in BSE, it opens the door to lots of much more complex ideas to be implemented. 
 
-My biggest challenges at BSE were learning to CAD and a bit of coding. CAD was something I'd tried before this course with barely any success, but this course helped me learn the basics and start creating useful and properly-scaled shapes and structures. My biggest triumphs were the building of the robot frame and the wiring, as I've enjoyed doing that and the wiring felt more like a complex puzzle than a issue. Seeing all the wiring but knowing what each individual one did felt really satisfying to me. 
+My biggest challenges at BSE were learning to CAD and the coding. CAD was something I'd tried before this course with barely any success, but this course helped me learn the basics and start creating useful and properly-scaled shapes and structures. My biggest triumphs were the building of the robot frame and the wiring, as I've always enjoyed doing that and the wiring felt more like a complex puzzle than a issue. Seeing all the wiring but knowing what each individual one did felt very satisfying to me. 
 
 # *Schematics*
 <img width="2000" height="auto" alt="FCRSideView" src="https://github.com/user-attachments/assets/a6ce5e29-b54d-4ff4-83de-74a2005e7450" />
@@ -26,7 +26,7 @@ My biggest challenges at BSE were learning to CAD and a bit of coding. CAD was s
 <!--**Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs.**-->
 
 ```c++
-// Throttle Control (A = RIGHT MOTOR, B = LEFT MOTOR)
+// Throttle Control
 const int A_1B = 5;
 const int A_1A = 6;
 const int B_1B = 9;
@@ -36,7 +36,7 @@ const int B_1A = 10;
 const int echoPinFront = 4;
 const int trigPinFront = 3;
 
-// Purple White BACK
+// Purple White BACK NOT USED OPEN
 const int echoPinBack = A5;
 const int trigPinBack = A4;
 
@@ -52,13 +52,15 @@ const int trigPinLeft = A1;
 const int rightIR = 7;
 const int leftIR = 8;
 
-const float mult = 1.0;
+const float mult = 0.92; 
 
-// Navigation Thresholds
-const float WALL_THRESHOLD = 15.0;
-const float MAX_HUG_DISTANCE = 25.0;
-const float MIN_BRACKET = 13.0;   
-const float MAX_BRACKET = 18.0;    
+// Navigation Parameters
+const float FRONT_THRESHOLD   = 18.0;
+const float MIN_BRACKET      = 12.0;
+const float MAX_BRACKET      = 18.0; 
+const float MAX_HUG_DISTANCE = 26.0;
+
+bool hasFoundWall = false;
 
 float readSensorDataFront() {
   digitalWrite(trigPinFront, LOW);
@@ -66,18 +68,19 @@ float readSensorDataFront() {
   digitalWrite(trigPinFront, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPinFront, LOW);
-  float distanceFront = pulseIn(echoPinFront, HIGH, 5800) / 58.00; 
-  return (distanceFront == 0) ? 999.0 : distanceFront; 
+  float dist = pulseIn(echoPinFront, HIGH, 5800) / 58.00; 
+  return (dist <= 2.0) ? 999.0 : dist; 
 }
 
+// UNUSED below
 float readSensorDataBack() {
   digitalWrite(trigPinBack, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPinBack, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPinBack, LOW);
-  float distanceBack = pulseIn(echoPinBack, HIGH, 5800) / 58.00; 
-  return (distanceBack == 0) ? 999.0 : distanceBack;
+  float dist = pulseIn(echoPinBack, HIGH, 5800) / 58.00; 
+  return (dist <= 2.0) ? 999.0 : dist;
 }
 
 float readSensorDataRight() {
@@ -86,8 +89,8 @@ float readSensorDataRight() {
   digitalWrite(trigPinRight, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPinRight, LOW);
-  float distanceRight = pulseIn(echoPinRight, HIGH, 5800) / 58.00; 
-  return (distanceRight == 0) ? 999.0 : distanceRight;
+  float dist = pulseIn(echoPinRight, HIGH, 5800) / 58.00; 
+  return (dist <= 2.0) ? 999.0 : dist;
 }
 
 float readSensorDataLeft() {
@@ -96,8 +99,8 @@ float readSensorDataLeft() {
   digitalWrite(trigPinLeft, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPinLeft, LOW);
-  float distanceLeft = pulseIn(echoPinLeft, HIGH, 5800) / 58.00; 
-  return (distanceLeft == 0) ? 999.0 : distanceLeft;
+  float dist = pulseIn(echoPinLeft, HIGH, 5800) / 58.00; 
+  return (dist <= 2.0) ? 999.0 : dist;
 }
 
 void moveForward(int speed) {
@@ -107,19 +110,17 @@ void moveForward(int speed) {
   analogWrite(B_1A, 0);
 }
 
-void adjustLeft(int speed) {
-  
+void veerRight(int baseSpeed) {
   analogWrite(A_1B, 0);
-  analogWrite(A_1A, speed); 
-  analogWrite(B_1B, 0);      
+  analogWrite(A_1A, baseSpeed);             
+  analogWrite(B_1B, (baseSpeed * 0.5) * mult); 
   analogWrite(B_1A, 0);
 }
 
-void adjustRight(int speed) {
-  
+void veerLeft(int baseSpeed) {
   analogWrite(A_1B, 0);
-  analogWrite(A_1A, 0);      
-  analogWrite(B_1B, speed * mult); 
+  analogWrite(A_1A, baseSpeed * 0.5);      
+  analogWrite(B_1B, baseSpeed * mult);
   analogWrite(B_1A, 0);
 }
 
@@ -130,16 +131,14 @@ void moveBackward(int speed) {
   analogWrite(B_1A, speed * mult);
 }
 
-void pivotRight(int speed) {
-  
+void pivotLeft(int speed) {
   analogWrite(A_1B, speed);
   analogWrite(A_1A, 0);
   analogWrite(B_1B, speed * mult);
   analogWrite(B_1A, 0);
 }
 
-void pivotLeft(int speed) {
-  
+void pivotRight(int speed) {
   analogWrite(A_1B, 0);
   analogWrite(A_1A, speed);
   analogWrite(B_1B, 0);
@@ -151,6 +150,16 @@ void stopMove() {
   analogWrite(A_1A, 0);
   analogWrite(B_1B, 0);
   analogWrite(B_1A, 0);
+}
+
+void sendTelemetry(float front, float left, float right) {
+  Serial.print(front);
+  Serial.print(",");
+  Serial.print(left);
+  Serial.print(",");
+  Serial.print(right);
+  Serial.print(",");
+  Serial.println(hasFoundWall ? "WALL_HUG" : "SEARCH");
 }
 
 void setup() {
@@ -178,69 +187,72 @@ void loop() {
   int leftIR_val = digitalRead(leftIR);
   int rightIR_val = digitalRead(rightIR);
 
-  
+  float distanceFront = readSensorDataFront();
+  delay(10);
+  float distanceLeft = readSensorDataLeft();
+  delay(10);
+  float distanceRight = readSensorDataRight();
+
+  sendTelemetry(distanceFront, distanceLeft, distanceRight);
+
   if (leftIR_val == LOW && rightIR_val == HIGH) {
-    Serial.println("IR adjusting Right");
-    adjustRight(180);
-    delay(50);
+    veerRight(180);
+    delay(150); 
+    stopMove();
   } 
   else if (leftIR_val == HIGH && rightIR_val == LOW) {
-    Serial.println("IR adjusting Left");
-    adjustLeft(180);
-    delay(50);
+    veerLeft(180);
+    delay(150);
+    stopMove();
   } 
   else if (leftIR_val == LOW && rightIR_val == LOW) {
-    Serial.println("Backing up");
     moveBackward(150);
-    delay(200);
+    delay(250);
+    stopMove();
   } 
+
   else {
-    float distanceFront = readSensorDataFront();
-    Serial.print("Front Distance: ");
-    Serial.println(distanceFront);
+    if (distanceLeft < MAX_HUG_DISTANCE && !hasFoundWall) {
+      hasFoundWall = true;
+    }
 
-    
-    if (distanceFront <= WALL_THRESHOLD) {
-      Serial.println("Calculating longest path...");
+    if (distanceFront <= FRONT_THRESHOLD) {
       stopMove();
-      delay(800);
+      delay(300);
 
-      delay(10); 
-      float distanceLeft = readSensorDataLeft();
-      delay(10);
-      float distanceRight = readSensorDataRight();
-
-      Serial.print("Left: "); Serial.println(distanceLeft);
-      Serial.print("Right: "); Serial.println(distanceRight);
+      distanceRight = readSensorDataRight();
+      sendTelemetry(distanceFront, distanceLeft, distanceRight);
 
       if (distanceLeft > distanceRight) {
-        Serial.println("Go Left");
-        pivotLeft(180);
-        delay(700);
-      } else {
-        Serial.println("Go Right");
         pivotRight(180);
-        delay(700);
+        delay(670);
+      } else {
+        pivotLeft(180);
+        delay(670);
       } 
       stopMove();
-      delay(100);
+      delay(150);
     } 
-    
-    else {
-      delay(10);
-      float distanceLeft = readSensorDataLeft();
 
-      if (distanceLeft < MAX_HUG_DISTANCE) {
+    else {
+      if (hasFoundWall) {
         if (distanceLeft < MIN_BRACKET) {
-          Serial.println("Adjusting Right");
-          adjustRight(150);
+          veerLeft(160);
+          delay(30);
         } 
-        else if (distanceLeft > MAX_BRACKET) {
-          Serial.println("Adjusting Left");
-          adjustLeft(150);
+        else if (distanceLeft > MAX_BRACKET && distanceLeft <= MAX_HUG_DISTANCE) {
+          veerRight(160);
+          delay(40);
+        } 
+        else if (distanceLeft > MAX_HUG_DISTANCE) {
+          if (distanceFront <= (FRONT_THRESHOLD + 10.0)) {
+            moveForward(120);
+          } else {
+            moveForward(200);
+          }
         } 
         else {
-          if (distanceFront <= (WALL_THRESHOLD + 10.0)) {
+          if (distanceFront <= (FRONT_THRESHOLD + 10.0)) {
             moveForward(120);
           } else {
             moveForward(200);
@@ -248,7 +260,7 @@ void loop() {
         }
       } 
       else {
-        if (distanceFront <= (WALL_THRESHOLD + 10.0)) {
+        if (distanceFront <= (FRONT_THRESHOLD + 10.0)) {
           moveForward(120);
         } else {
           moveForward(200);
